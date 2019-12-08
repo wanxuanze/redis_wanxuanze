@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+	<!-- 第1步： 启动Spring父容器-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring-context.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- 第2步：编码转换器 -->
+	
+	<!-- 第3步：启动SpringMVC子容器 -->
+	<servlet>
+		<servlet-name>cms</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- SpringMVC子容器找配置有两种方式：先查找有没有init-param指定配置文件，如果没有，则使用/WEN-INF/${servlet-name}-servlet.xml
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		 -->
+		 <load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cms</servlet-name>
+		<!-- 
+		"/" 与 "/*"的区别：/是覆盖了default的请求，/*是覆盖所有请求
+		 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/images/*</url-pattern>
+		<url-pattern>/upload/*</url-pattern>
+		<url-pattern>/js/*</url-pattern>
+		<url-pattern>/css/*</url-pattern>
+		<url-pattern>/libs/*</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
